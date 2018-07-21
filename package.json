@@ -4,11 +4,14 @@
   "description": "line message bot",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "server": "node server/app.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wisaTong/KitchenPlus.git"
+  },
+  "dependencies": {
+    "express": "^4.16.3"
   },
   "author": "wisaTong",
   "license": "ISC",
