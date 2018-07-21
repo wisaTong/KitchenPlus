@@ -14,25 +14,27 @@ const TEMP_KTCH = 'TEMP_KITCHEN'
 const LPG = 'LPG'
 const FAN = 'FAN_STATUS'
 
+const WARN = 'WARNING'
+
 //return as promise
-let getWeb = (sensor) => {
+let getWeb = (route) => {
   return $.ajax({
     type: "GET"
-    , url: `http://ecourse.cpe.ku.ac.th/exceed/api/terngpalm-${sensor}/view`
+    , url: `http://ecourse.cpe.ku.ac.th/exceed/api/terngpalm-${route}/view`
     , dataType: "text"
   });
 }
 
-let postWeb = (sensor, data) => {
+let postWeb = (route, data) => {
   $.ajax({
     type: "POST"
-    , url: `http://ecourse.cpe.ku.ac.th/exceed/api/terngpalm-${sensor}/set`
+    , url: `http://ecourse.cpe.ku.ac.th/exceed/api/terngpalm-${route}/set`
     , data: {
       value: data
     }
     , dataType: "json"
     , success: (response) => {
-      console.log(`POST success [data: ${data}, sensor: ${sensor}]`)
+      console.log(`POST success [data: ${data}, sensor: ${route}]`)
     }
     , fail: (response) => {
       console.log(`POST fail [error: ${response}]`)
@@ -47,9 +49,12 @@ let getLPG = () => {
 
     $('#lpg').html(`<h1>${res} ppm</h1>`)
 
-    if (res <= 1000) $('#safety').html(`<p class="font-weight-light italic" style="margin-bottom: 30px; font-size: 20px; color: grey">SAFTY LEVEL: SAFE</p>`)
-    else if (res <= 1200) $('#safety').html(`<p class="font-weight-light italic" style="margin-bottom: 30px; font-size: 20px; color: grey">SAFTY LEVEL: UNSAFE</p>`)
-    else if (res <= 1700)$('#safety').html(`<p class="font-weight-light italic" style="margin-bottom: 30px; font-size: 20px; color: grey">SAFTY LEVEL: DANGEROUS </p>`)
+    if (res <= 1000) $('#safety').html(`<p class="font-weight-light italic" style="margin-bottom: 10px; font-size: 20px; color: grey">SAFTY LEVEL: SAFE</p>`)
+    else if (res <= 1200) {
+      $('#safety').html(`<p class="font-weight-light italic" style="margin-bottom: 10px; font-size: 20px; color: grey">SAFTY LEVEL: UNSAFE</p>`)
+      postWeb(WARN, 1)
+    }
+    else if (res <= 1700) $('#safety').html(`<p class="font-weight-light italic" style="margin-bottom: 10px; font-size: 20px; color: grey">SAFTY LEVEL: DANGEROUS </p>`)
   })
 }
 
@@ -65,18 +70,29 @@ let getFanStatus = () => {
   })
 }
 
+let getRoomTemp = () => {
+  getWeb(TEMP_KTCH).then((res) => { $('#room-temp').html(`<p id="room-temp" class="font-weight-light" style="top: 90px; font-size: 20px; color: grey">ROOM TEMPERATURE: ${res} °c</p>`) })
+}
+
+let getOvenStatus = () => {
+  getWeb(OVEN_1).then((res) => { oven1 = res })
+  getWeb(OVEN_2).then((res) => { oven2 = res })
+}
+
 //END OF SPECIFIC REQUEST
 
 let getAll = () => {
   getLPG()
   getOvenTemp()
   getFanStatus()
+  getRoomTemp()
+  getOvenStatus()
 }
 
 let setup = () => {
   $('#oven1').on('click', () => {
     window.location.replace('./nextpage.html')
-  })  
+  })
 }
 
 let init = () => {

@@ -11,7 +11,7 @@
     crossorigin="anonymous">
 
   <!-- local css -->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./style.css">
   <title>Kitchen+</title>
 </head>
 
@@ -21,6 +21,9 @@
     <a class="navbar-brand" href="./index.html">Kitchen+</a>
   </nav>
 
+  <!-- <p class="font-weight-light fixed" style="font-size: 15px; color: grey">ROOM TEMPERATURE: 0 °c</p>
+  <p id="room-temp" class="font-weight-light fixed" style="top: 90px; font-size: 15px; color: grey">0 °c</p> -->
+
   <div height="100px"></div>
 
   <div class="page" style="margin-top: 80px">
@@ -28,20 +31,24 @@
       <div class="center">
 
         <p class="font-weight-light" style="margin-top: 20px; font-size: 45px; color: grey">LPG INTENSITY</p>
-        <h1 id="lpg" style="margin-bottom: 20px">239.2 ppm</h1>
-        <p id="safety" class="font-weight-light italic" style="margin-bottom: 30px; font-size: 20px; color: grey">SAFTY LEVEL: SAFE</p>
+        <h1 id="lpg" style="margin-bottom: 20px">- ppm</h1>
+        <p id="safety" class="font-weight-light italic" style="margin-bottom: 10px; font-size: 20px; color: grey">SAFTY LEVEL: SAFE</p>
+
+        <hr>
+
+        <p id="room-temp" class="font-weight-light" style="font-size: 20px; color: grey">ROOM TEMPERATURE: - °c</p>
 
         <hr>
 
         <div class="container">
           <div class="row">
             <div class="col-12 col-md-6">
-              <p id="oven1" class="font-weight-light hover-fade" style="margin-top: 10px; font-size: 45px;">OVEN - 1 TEMPERATURE</p>
-              <h1 id="oven-temp1" style="margin-bottom: 20px">422 °c</h1>
+              <p id="oven1" class="font-weight-light hover-fade" style="margin-top: 10px; font-size: 40px;">OVEN - 1 TEMPERATURE</p>
+              <h1 id="oven-temp1" style="margin-bottom: 20px">- °c</h1>
             </div>
             <div class="col-12 col-md-6">
-              <p id="oven2" class="font-weight-light hover-fade" style="margin-top: 10px; font-size: 45px;">OVEN - 2 TEMPERATURE</p>
-              <h1 id="oven-temp2" style="margin-bottom: 20px">422 °c</h1>
+              <p id="oven2" class="font-weight-light hover-fade" style="margin-top: 10px; font-size: 40px;">OVEN - 2 TEMPERATURE</p>
+              <h1 id="oven-temp2" style="margin-bottom: 20px">- °c</h1>
             </div>
           </div>
         </div>
@@ -61,7 +68,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
     crossorigin="anonymous"></script>
   <!-- Optional JavaScript -->
-  <script src="./app.js"></script>
+  <script src="./JS/app.js"></script>
 </body>
 
 </html>
