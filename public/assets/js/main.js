@@ -4,6 +4,14 @@ var oven2 = -1
 var temp1 = 0
 var temp2 = 0
 
+var switch1 = 1
+var switch2 = 1
+
+var timeOn
+var timeOff
+
+const TO_MS = 1000
+
 const OVEN_1 = 'OVEN_1'
 const OVEN_2 = 'OVEN_2'
 
@@ -28,7 +36,7 @@ let getWeb = (route) => {
   });
 }
 
-let postWeb = (route, data) => {
+let postWeb = async (route, data) => {
   $.ajax({
     type: "POST"
     , url: `http://ecourse.cpe.ku.ac.th/exceed/api/terngpalm-${route}/set`
@@ -92,13 +100,45 @@ let getAll = () => {
   getOvenStatus()
 }
 
+let setTimer = () => {
+  $('#submit1').on('click', () => {
+    timeOn = $('#oven-on').val() * TO_MS
+    timeOff = $('#oven-off').val() * TO_MS
+
+    $('#oven-on').val('')
+    $('#oven-off').val('')
+
+    setInterval(() => {
+      switch1 = switch1 * -1
+      postWeb(SWITCH2, switch1) 
+    }, timeOn)
+  })
+
+  $('#submit2').on('click', () => {
+    timeOn = $('#oven-on').val() * TO_MS
+    timeOff = $('#oven-off').val() * TO_MS
+
+    console.log(timeOn + ': ' + timeOff);
+
+    $('#oven-on').val('')
+    $('#oven-off').val('')
+
+    setInterval(() => {
+      switch2 = switch2 * -1
+      postWeb(SWITCH2, switch2) 
+    }, timeOn)
+  })
+}
+
 let setup = () => {
   $('#oven1').on('click', () => {
-    window.location.replace('./nextpage.html')
+    window.location.replace('./timer_1.html')
   })
-  $('#some-button1').on('click', () => {
-    //TODO finish this method
+  $('#oven2').on('click', () => {
+    window.location.replace('./timer_2.html')
   })
+
+  setTimer()
 }
 
 let init = () => {
