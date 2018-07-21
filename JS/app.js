@@ -16,6 +16,9 @@ const FAN = 'FAN_STATUS'
 
 const WARN = 'WARNING'
 
+const SWITCH1 = 'SWITCH_OVEN_1'
+const SWITCH2 = 'SWTICH_OVEN_2'
+
 //return as promise
 let getWeb = (route) => {
   return $.ajax({
@@ -92,6 +95,9 @@ let getAll = () => {
 let setup = () => {
   $('#oven1').on('click', () => {
     window.location.replace('./nextpage.html')
+  })
+  $('#some-button1').on('click', () => {
+    //TODO finish this method
   })
 }
 
