@@ -1,0 +1,24 @@
+.center {
+  text-align: center;
+}
+
+.page {
+  max-width: 800px;
+  margin: auto;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.italic {
+  font-style: italic;
+}
+
+p.hover-fade {
+  color: grey;
+}
+
+p.hover-fade:hover {
+  color: lightgray;
+}
