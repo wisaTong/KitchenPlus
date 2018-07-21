@@ -1,0 +1,19 @@
+{
+  "name": "kitchenplus",
+  "version": "1.0.0",
+  "description": "line message bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wisaTong/KitchenPlus.git"
+  },
+  "author": "wisaTong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wisaTong/KitchenPlus/issues"
+  },
+  "homepage": "https://github.com/wisaTong/KitchenPlus#readme"
+}
