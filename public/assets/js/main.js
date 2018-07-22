@@ -10,6 +10,10 @@ var switch2 = 1
 var timeOn
 var timeOff
 
+let sent = false
+
+let res = 40
+
 const TO_MS = 1000
 
 const OVEN_1 = 'OVEN_1'
@@ -36,7 +40,7 @@ let getWeb = (route) => {
   });
 }
 
-let postWeb = async (route, data) => {
+let postWeb = (route, data) => {
   $.ajax({
     type: "POST"
     , url: `http://ecourse.cpe.ku.ac.th/exceed/api/terngpalm-${route}/set`
@@ -53,19 +57,49 @@ let postWeb = async (route, data) => {
   });
 }
 
+let postLine = (data) => {
+  $.ajax({
+    type: "POST",
+    url: "http://d1a068eb.ngrok.io/api/push",
+    data: {
+      lpg: data
+    },
+    dataType: "json",
+    success: function (response) {
+      console.log('send line message okay')
+    }
+  });
+}
+
 //SPECIFIC REQUEST HERE
+
+
 
 let getLPG = () => {
   getWeb(LPG).then((res) => {
 
-    $('#lpg').html(`<h1>${res} ppm</h1>`)
+    console.log(res)
 
-    if (res <= 1000) $('#safety').html(`<p class="font-weight-light italic" style="margin-bottom: 10px; font-size: 20px; color: grey">SAFTY LEVEL: SAFE</p>`)
-    else if (res <= 1200) {
-      $('#safety').html(`<p class="font-weight-light italic" style="margin-bottom: 10px; font-size: 20px; color: grey">SAFTY LEVEL: UNSAFE</p>`)
-      postWeb(WARN, 1)
+    if (res <= 1000 || res <= 0) {
+      $('#lpg').html(`<h1>${res} ppm</h1>`)
+
+      if (res <= 53) {
+        $('#safety').html(`<p class="font-weight-light italic" style="margin-bottom: 10px; font-size: 20px; color: grey">SAFTY LEVEL: SAFE</p>`)
+        postWeb(WARN, -1)
+      }
+      else if (res <= 57) {
+        $('#safety').html(`<p class="font-weight-light italic" style="margin-bottom: 10px; font-size: 20px; color: grey">SAFTY LEVEL: UNSAFE</p>`)
+        postWeb(WARN, 1)
+        sent = false
+      }
+      else if (res >= 57) {
+        $('#safety').html(`<p class="font-weight-light italic" style="margin-bottom: 10px; font-size: 20px; color: grey">SAFTY LEVEL: DANGEROUS </p>`)
+        if (!sent) {
+          postLine(res)
+          sent = true
+        }
+      }
     }
-    else if (res <= 1700) $('#safety').html(`<p class="font-weight-light italic" style="margin-bottom: 10px; font-size: 20px; color: grey">SAFTY LEVEL: DANGEROUS </p>`)
   })
 }
 
@@ -82,7 +116,7 @@ let getFanStatus = () => {
 }
 
 let getRoomTemp = () => {
-  getWeb(TEMP_KTCH).then((res) => { $('#room-temp').html(`<p id="room-temp" class="font-weight-light" style="top: 90px; font-size: 20px; color: grey">ROOM TEMPERATURE: ${res} °c</p>`) })
+  getWeb(TEMP_KTCH).then((res) => { if (res <= 50) $('#room-temp').html(`<p id="room-temp" class="font-weight-light" style="top: 90px; font-size: 20px; color: grey">ROOM TEMPERATURE: ${res} °c</p>`) })
 }
 
 let getOvenStatus = () => {
@@ -110,7 +144,7 @@ let setTimer = () => {
 
     setInterval(() => {
       switch1 = switch1 * -1
-      postWeb(SWITCH2, switch1) 
+      postWeb(SWITCH1, switch1)
     }, timeOn)
   })
 
@@ -125,7 +159,7 @@ let setTimer = () => {
 
     setInterval(() => {
       switch2 = switch2 * -1
-      postWeb(SWITCH2, switch2) 
+      postWeb(SWITCH2, switch2)
     }, timeOn)
   })
 }
@@ -144,6 +178,10 @@ let setup = () => {
 let init = () => {
   setup()
   setInterval(getAll, 500)
+}
+
+const burn = () => {
+  res = 800
 }
 
 $(init)
