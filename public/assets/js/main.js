@@ -80,21 +80,22 @@ let getLPG = () => {
 
     console.log(res)
 
-    if (res <= 1000 || res <= 0) {
+    if (res <= 1000 && res > 0) {
       $('#lpg').html(`<h1>${res} ppm</h1>`)
 
-      if (res <= 53) {
+      if (res <= 50) {
         $('#safety').html(`<p class="font-weight-light italic" style="margin-bottom: 10px; font-size: 20px; color: grey">SAFTY LEVEL: SAFE</p>`)
         postWeb(WARN, -1)
       }
-      else if (res <= 57) {
+      else if (res < 55) {
         $('#safety').html(`<p class="font-weight-light italic" style="margin-bottom: 10px; font-size: 20px; color: grey">SAFTY LEVEL: UNSAFE</p>`)
         postWeb(WARN, 1)
         sent = false
       }
-      else if (res >= 57) {
+      else if (res >= 60) {
         $('#safety').html(`<p class="font-weight-light italic" style="margin-bottom: 10px; font-size: 20px; color: grey">SAFTY LEVEL: DANGEROUS </p>`)
         if (!sent) {
+          postWeb(WARN, 1)
           postLine(res)
           sent = true
         }
@@ -104,14 +105,14 @@ let getLPG = () => {
 }
 
 let getOvenTemp = () => {
-  getWeb(TEMP_O1).then((res) => { $('#oven-temp1').html(`<h1>${res} °c</h1>`) })
-  getWeb(TEMP_O2).then((res) => { $('#oven-temp2').html(`<h1>${res} °c</h1>`) })
+  getWeb(TEMP_O1).then((res) => { if (res <= 50) $('#oven-temp1').html(`<h1>${res} °c</h1>`) })
+  getWeb(TEMP_O2).then((res) => { if (res <= 50) $('#oven-temp2').html(`<h1>${res} °c</h1>`) })
 }
 
 let getFanStatus = () => {
   getWeb(FAN).then((res) => {
     if (res < 0) $('#fan').html(`<p id="fan" class="font-weight-light" style="margin-top: 20px; font-size: 45px; color: lightgrey">FAN STATUS OFF</p>`)
-    else $('#fan').html(`<p id="fan" class="font-weight-light" style="margin-top: 20px; font-size: 45px; color: grey">FAN STATUS ON</p>`)
+    else if (res > 0) $('#fan').html(`<p id="fan" class="font-weight-light" style="margin-top: 20px; font-size: 45px; color: grey">FAN STATUS ON</p>`)
   })
 }
 
